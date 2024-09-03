@@ -2,11 +2,10 @@ package com.example.kotlinserverexample.global.configuration
 
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
-import io.swagger.v3.oas.models.Operation
 import io.swagger.v3.oas.models.info.Info
-import io.swagger.v3.oas.models.media.Content
+import io.swagger.v3.oas.models.media.IntegerSchema
 import io.swagger.v3.oas.models.media.Schema
-import io.swagger.v3.oas.models.responses.ApiResponses
+import io.swagger.v3.oas.models.parameters.QueryParameter
 import org.springdoc.core.customizers.OpenApiCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,6 +29,19 @@ class SwaggerConfiguration {
     @Bean
     fun customizeResponses(): OpenApiCustomizer {
         return OpenApiCustomizer { openApi: OpenAPI ->
+//            openApi.paths.values.forEach { pathItem ->
+//                pathItem.readOperations().forEach { operation ->
+//                    operation.parameters?.forEach { parameter ->
+//                        if (parameter.name == "size") {
+//                            // IntegerSchema를 사용하여 기본값 설정
+//                            val schema = IntegerSchema()
+//                            schema.setDefault(parameter.schema.default)
+//                            parameter.schema = schema
+//
+//                        }
+//                    }
+//                }
+//            }
             val schemaMap = mutableMapOf<String, Schema<*>>()
 
             // Collect all schemas
@@ -49,6 +61,7 @@ class SwaggerConfiguration {
                     }
                 }
             }
+
         }
     }
 
@@ -60,6 +73,7 @@ class SwaggerConfiguration {
                 val refKey = ref.substringAfterLast("/")  // 'PageMemberEntity' 추출
                 schemaMap[refKey] ?: schema
             }
+
             else -> schema
         }
     }
@@ -67,7 +81,7 @@ class SwaggerConfiguration {
     private fun wrapSchema(originalSchema: Schema<*>): Schema<Any> {
         val wrapperSchema = Schema<Any>()
 
-        if(originalSchema.name.contains("Error")) {
+        if (originalSchema.name.contains("Error")) {
             return originalSchema as Schema<Any>
         } else {
             wrapperSchema.addProperty("message", Schema<Any>().apply {
