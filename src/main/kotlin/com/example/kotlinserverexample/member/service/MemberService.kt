@@ -18,13 +18,7 @@ import org.springframework.util.StringUtils
 @Service
 class MemberService(private var memberRepository: MemberRepository) {
     fun searchMember(memberSearchDto: MemberSearchDto, pageable: Pageable): Page<MemberEntity> {
-        return memberRepository.findByNameAndAgeAndAddressAndGender(
-            name = memberSearchDto.name,
-            age = memberSearchDto.age,
-            address = memberSearchDto.address,
-            gender = memberSearchDto.gender,
-            pageable = pageable
-        )
+        return memberRepository.findByNameAndAgeAndAddressAndGender(memberSearchDto, pageable)
     }
 
     fun detailMember(id: Long): MemberEntity {
