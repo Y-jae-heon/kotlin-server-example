@@ -49,8 +49,8 @@ dependencies {
     implementation("org.hibernate:hibernate-core:6.2.4.Final")
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter-jakarta:$jdslVersion")
     // Swagger
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.8")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.22")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 }
 
 kotlin {

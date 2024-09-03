@@ -2,15 +2,21 @@ package com.example.kotlinserverexample.member.service
 
 import com.example.kotlinserverexample.member.dto.CreateMemberDto
 import com.example.kotlinserverexample.member.dto.MemberResponseDto
+import com.example.kotlinserverexample.member.dto.MemberSearchDto
 import com.example.kotlinserverexample.member.dto.UpdateMemberDto
 import com.example.kotlinserverexample.member.entity.MemberEntity
 import com.example.kotlinserverexample.member.repository.MemberRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
 @Service
 class MemberService(private  var memberRepository: MemberRepository) {
+    fun searchMember(memberSearchDto: MemberSearchDto, pageable: Pageable): Page<MemberEntity> {
+        return memberRepository.findByNameAndAgeAndAddressAndGender(name = memberSearchDto.name, age = memberSearchDto.age, address = memberSearchDto.address, gender = memberSearchDto.gender, pageable = pageable)
+    }
 
     @Transactional
     fun save(memberDto: CreateMemberDto): MemberResponseDto {
