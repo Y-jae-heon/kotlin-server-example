@@ -1,5 +1,6 @@
 package com.example.kotlinserverexample.member.impl
 
+import com.example.kotlinserverexample.member.entity.Gender
 import com.example.kotlinserverexample.member.entity.MemberEntity
 import com.example.kotlinserverexample.member.repository.MemberRepositoryImpl
 import com.linecorp.kotlinjdsl.querydsl.expression.col
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Repository
 @Repository
 @RequiredArgsConstructor
 class MemberRepositoryImpl(private val springDataQueryFactory: SpringDataQueryFactory): MemberRepositoryImpl {
-    override fun findByNameAndAgeAndAddressAndGender(name: String?, age: Int?, address: String?, gender: String?, pageable: Pageable): Page<MemberEntity> {
+    override fun findByNameAndAgeAndAddressAndGender(name: String?, age: Int?, address: String?, gender: Gender?, pageable: Pageable): Page<MemberEntity> {
         val member = springDataQueryFactory.listQuery<MemberEntity> {
             select(entity(MemberEntity::class))
             from(entity(MemberEntity::class))

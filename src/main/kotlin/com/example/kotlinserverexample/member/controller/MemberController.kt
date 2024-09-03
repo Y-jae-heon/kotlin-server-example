@@ -49,4 +49,11 @@ class MemberController(@Autowired var memberService: MemberService) {
     ): Page<MemberEntity> {
         return memberService.searchMember(memberSearchDto, pageable)
     }
+
+    @GetMapping("/{id}")
+    fun detailMember(
+        @PathVariable id: Long
+    ): MemberEntity {
+        return memberService.detailMember(id)
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.kotlinserverexample.member.repository
 
 import com.example.kotlinserverexample.global.response.PageResponse
+import com.example.kotlinserverexample.member.entity.Gender
 import com.example.kotlinserverexample.member.entity.MemberEntity
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -10,5 +11,5 @@ interface MemberRepository: JpaRepository<MemberEntity, Long>, MemberRepositoryI
 }
 
 interface MemberRepositoryImpl {
-    fun findByNameAndAgeAndAddressAndGender(name: String?, age: Int?, address: String?, gender: String?, pageable: Pageable): Page<MemberEntity>
+    fun findByNameAndAgeAndAddressAndGender(name: String?, age: Int?, address: String?, gender: Gender?, pageable: Pageable): Page<MemberEntity>
 }

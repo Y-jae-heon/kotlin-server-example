@@ -1,5 +1,7 @@
 package com.example.kotlinserverexample.member.service
 
+import com.example.kotlinserverexample.global.exception.Exception
+import com.example.kotlinserverexample.global.exception.ExceptionCode
 import com.example.kotlinserverexample.member.dto.CreateMemberDto
 import com.example.kotlinserverexample.member.dto.MemberResponseDto
 import com.example.kotlinserverexample.member.dto.MemberSearchDto
@@ -9,13 +11,24 @@ import com.example.kotlinserverexample.member.repository.MemberRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
 @Service
-class MemberService(private  var memberRepository: MemberRepository) {
+class MemberService(private var memberRepository: MemberRepository) {
     fun searchMember(memberSearchDto: MemberSearchDto, pageable: Pageable): Page<MemberEntity> {
-        return memberRepository.findByNameAndAgeAndAddressAndGender(name = memberSearchDto.name, age = memberSearchDto.age, address = memberSearchDto.address, gender = memberSearchDto.gender, pageable = pageable)
+        return memberRepository.findByNameAndAgeAndAddressAndGender(
+            name = memberSearchDto.name,
+            age = memberSearchDto.age,
+            address = memberSearchDto.address,
+            gender = memberSearchDto.gender,
+            pageable = pageable
+        )
+    }
+
+    fun detailMember(id: Long): MemberEntity {
+        return memberRepository.findByIdOrNull(id) ?: throw Exception(ExceptionCode.MEMBER_NOT_FOUND)
     }
 
     @Transactional
@@ -33,16 +46,16 @@ class MemberService(private  var memberRepository: MemberRepository) {
         val address = updateMemberDto.address
         val gender = updateMemberDto.gender
 
-        if(StringUtils.hasText(name)) {
+        if (StringUtils.hasText(name)) {
             member.name = name
         }
-        if(age !== null) {
+        if (age !== null) {
             member.age = age
         }
-        if(StringUtils.hasText(address)) {
+        if (StringUtils.hasText(address)) {
             member.address = address
         }
-        if(StringUtils.hasText(gender)) {
+        if (gender != null) {
             member.gender = gender
         }
 
