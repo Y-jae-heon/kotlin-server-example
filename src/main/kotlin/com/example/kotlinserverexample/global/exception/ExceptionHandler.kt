@@ -50,7 +50,7 @@ class ExceptionHandler {
     fun methodNotAllowedExceptionHandler(exception: HttpRequestMethodNotSupportedException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             status = HttpStatus.METHOD_NOT_ALLOWED.value(),
-            error = exception.message.toString(),
+            error = HttpStatus.METHOD_NOT_ALLOWED.name,
             message = exception.message,
         )
 
@@ -62,7 +62,7 @@ class ExceptionHandler {
     fun httpMessageNotReadableExceptionHandler(exception: HttpMessageNotReadableException): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),
-            error = exception.message.toString(),
+            error = HttpStatus.BAD_REQUEST.name,
             message = exception.message,
         )
 
