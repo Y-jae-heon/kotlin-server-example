@@ -22,7 +22,13 @@ class MemberService(private var memberRepository: MemberRepository) {
     }
 
     fun detailMember(id: Long): MemberEntity {
-        return memberRepository.findByIdOrNull(id) ?: throw Exception(ExceptionCode.MEMBER_NOT_FOUND)
+        return memberRepository.findById(id).orElseThrow { Exception(ExceptionCode.MEMBER_NOT_FOUND) }
+    }
+
+    @Transactional
+    fun delete(id: Long) {
+        val member = memberRepository.findById(id).orElseThrow { Exception(ExceptionCode.MEMBER_NOT_FOUND) }
+        return memberRepository.delete(member)
     }
 
     @Transactional
@@ -33,7 +39,7 @@ class MemberService(private var memberRepository: MemberRepository) {
 
     @Transactional
     fun update(id: Long, updateMemberDto: UpdateMemberDto): MemberEntity {
-        val member = memberRepository.findById(id).orElseThrow()
+        val member = memberRepository.findById(id).orElseThrow { Exception(ExceptionCode.MEMBER_NOT_FOUND) }
 
         val name = updateMemberDto.name
         val age = updateMemberDto.age

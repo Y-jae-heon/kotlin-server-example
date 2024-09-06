@@ -81,7 +81,7 @@ class SwaggerConfiguration {
     private fun wrapSchema(originalSchema: Schema<*>): Schema<Any> {
         val wrapperSchema = Schema<Any>()
 
-        if (originalSchema.name.contains("Error")) {
+        if (originalSchema.name.contains("Error") || originalSchema.name.contains("Delete")) {
             return originalSchema as Schema<Any>
         } else {
             wrapperSchema.addProperty("message", Schema<Any>().apply {

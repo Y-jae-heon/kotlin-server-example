@@ -1,5 +1,8 @@
 package com.example.kotlinserverexample.member.controller
 
+import com.example.kotlinserverexample.global.response.DeleteDetailResponse
+import com.example.kotlinserverexample.global.response.DeleteResponse
+import com.example.kotlinserverexample.global.response.DeleteStatusCode
 import com.example.kotlinserverexample.member.dto.CreateMemberDto
 import com.example.kotlinserverexample.member.dto.MemberResponseDto
 import com.example.kotlinserverexample.member.dto.MemberSearchDto
@@ -14,6 +17,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -51,5 +55,11 @@ class MemberController(@Autowired var memberService: MemberService) {
         @PathVariable id: Long
     ): MemberEntity {
         return memberService.detailMember(id)
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteMember(@PathVariable id: Long): DeleteDetailResponse {
+        memberService.delete(id)
+        return DeleteResponse(DeleteStatusCode.MEMBER_DELETE).toDetails()
     }
 }
