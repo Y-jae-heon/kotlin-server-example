@@ -2,6 +2,7 @@ package com.example.kotlinserverexample.member.dto
 
 import com.example.kotlinserverexample.member.entity.Gender
 import jakarta.validation.constraints.NotNull
+import org.intellij.lang.annotations.RegExp
 import java.time.LocalDateTime
 
 class MemberResponseDto (

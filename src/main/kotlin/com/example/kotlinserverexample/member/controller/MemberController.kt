@@ -3,12 +3,10 @@ package com.example.kotlinserverexample.member.controller
 import com.example.kotlinserverexample.global.response.DeleteDetailResponse
 import com.example.kotlinserverexample.global.response.DeleteResponse
 import com.example.kotlinserverexample.global.response.DeleteStatusCode
-import com.example.kotlinserverexample.member.dto.CreateMemberDto
-import com.example.kotlinserverexample.member.dto.MemberResponseDto
-import com.example.kotlinserverexample.member.dto.MemberSearchDto
-import com.example.kotlinserverexample.member.dto.UpdateMemberDto
+import com.example.kotlinserverexample.member.dto.*
 import com.example.kotlinserverexample.member.entity.MemberEntity
 import com.example.kotlinserverexample.member.service.MemberService
+import com.example.kotlinserverexample.memberProfile.service.MemberProfileService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springdoc.core.annotations.ParameterObject
@@ -29,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "Kotlin 예제 CRUD API", description = "Kt Example API")
 @RestController
 @RequestMapping("/member")
-class MemberController(@Autowired var memberService: MemberService) {
+class MemberController(@Autowired var memberService: MemberService, var memberProfileService: MemberProfileService) {
 
     @Operation(summary = "TEST API MEMBER", description = "THIS IS TEST API")
     @PostMapping()
@@ -44,6 +42,7 @@ class MemberController(@Autowired var memberService: MemberService) {
 
     @GetMapping()
     fun searchMember(
+        @Validated
         @ParameterObject memberSearchDto: MemberSearchDto,
         @ParameterObject @PageableDefault(size = 10) pageable: Pageable
     ): Page<MemberEntity> {
@@ -51,10 +50,10 @@ class MemberController(@Autowired var memberService: MemberService) {
     }
 
     @GetMapping("/{id}")
-    fun detailMember(
+    fun getDetailMember(
         @PathVariable id: Long
-    ): MemberEntity {
-        return memberService.detailMember(id)
+    ): MemberDetailDto {
+        return memberService.getDetailMember(id)
     }
 
     @DeleteMapping("/{id}")
