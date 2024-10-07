@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/member/profile")
-class MemberProfileController (@Autowired var memberProfileService: MemberProfileService) {
+class MemberProfileController(@Autowired var memberProfileService: MemberProfileService) {
     @PostMapping()
     fun createMemberProfile(@Validated @RequestBody createMemberProfileDto: CreateMemberProfileDto): MemberProfileResponseDto {
-
-
         return memberProfileService.save(createMemberProfileDto)
     }
 
